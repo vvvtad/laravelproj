@@ -16,7 +16,7 @@ test('the member index and member details pages render', function () {
 
     $level = MembershipLevel::create([
         'membership_category_id' => $category->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,
@@ -61,7 +61,7 @@ test('the member form persists notes and returns to the list', function () {
 
     $level = MembershipLevel::create([
         'membership_category_id' => $category->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,
@@ -102,7 +102,7 @@ test('the member form rejects a level from another category', function () {
 
     $level = MembershipLevel::create([
         'membership_category_id' => $otherCategory->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,
@@ -131,7 +131,7 @@ test('members can be updated and deactivated through resource routes', function 
 
     $level = MembershipLevel::create([
         'membership_category_id' => $category->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,
@@ -180,7 +180,7 @@ test('only deactivated members have a permanent delete option', function () {
 
     $level = MembershipLevel::create([
         'membership_category_id' => $category->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,
@@ -219,7 +219,7 @@ test('active members cannot be permanently deleted', function () {
 
     $level = MembershipLevel::create([
         'membership_category_id' => $category->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,
@@ -248,7 +248,7 @@ test('deactivated members can be permanently deleted', function () {
 
     $level = MembershipLevel::create([
         'membership_category_id' => $category->id,
-        'name' => 'Annual',
+        'name' => 'Basic',
         'fee' => '100.00',
         'validity_days' => 365,
         'is_active' => true,

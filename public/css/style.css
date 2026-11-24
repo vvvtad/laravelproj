@@ -17,6 +17,8 @@ nav ul {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
 }
 
 nav a {
@@ -54,6 +56,7 @@ input, textarea {
     margin-bottom: 1rem;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
 textarea {
@@ -202,5 +205,130 @@ table {
             "form"
             "table";
         grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+/** MANAGEMENT PAGES **/
+
+.page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+.page-container h2 {
+    text-align: center;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1rem;
+}
+
+.dashboard-card {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.dashboard-card span {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.dashboard-card strong {
+    color: #ac3e6c;
+    font-size: 1.75rem;
+}
+
+.management-grid {
+    display: grid;
+    grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+}
+
+.management-grid > form,
+.management-list,
+.transaction-detail {
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+.management-list {
+    min-width: 0;
+    overflow-x: auto;
+}
+
+.management-grid form {
+    max-width: none;
+}
+
+.management-grid .delete-form,
+.inline-management-form,
+.filter-form {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+.filter-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 0.75rem;
+    align-items: end;
+}
+
+.filter-form button {
+    margin-bottom: 1rem;
+}
+
+.small-button {
+    margin: 0;
+    padding: 0.5rem 0.75rem;
+}
+
+.transaction-detail {
+    margin-bottom: 1rem;
+}
+
+.transaction-detail form {
+    max-width: 400px;
+    margin: 0;
+    padding: 0;
+}
+
+.print-record {
+    max-width: 700px;
+    margin: 2rem auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 2rem;
+}
+
+@media (max-width: 900px) {
+    .dashboard-grid,
+    .management-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .filter-form {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media print {
+    nav,
+    .no-print {
+        display: none;
+    }
+
+    .print-record {
+        border: none;
+        margin: 0;
+        max-width: none;
     }
 }

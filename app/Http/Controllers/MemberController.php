@@ -9,43 +9,23 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class MemberController extends Controller
 {
+    private const MEMBERSHIP_LEVEL_NAMES = ['Basic', 'Silver', 'Gold', 'Platinum'];
+
     private function ensureDefaultMembershipCatalog(): void
     {
-        if (MembershipCategory::count() > 0 && MembershipLevel::count() > 0) {
-            return;
-        }
-
-        $catalog = [
-            'Student' => [
-                'Basic' => 0,
-                'Silver' => 600,
-                'Gold' => 150,
-                'Platinum' => 350,
-            ],
-            'Regular' => [
-                'Basic' => 0,
-                'Silver' => 600,
-                'Gold' => 150,
-                'Platinum' => 350,
-            ],
-            'Senior Citizen' => [
-                'Basic' => 0,
-                'Silver' => 600,
-                'Gold' => 150,
-                'Platinum' => 350,
-            ],
-            'Corporate' => [
-                'Basic' => 0,
-                'Silver' => 600,
-                'Gold' => 150,
-                'Platinum' => 350,
-            ],
+        $fees = [
+            'Basic' => 0,
+            'Silver' => 600,
+            'Gold' => 150,
+            'Platinum' => 350,
         ];
+        $categories = ['Student', 'Regular', 'Senior Citizen', 'Corporate'];
 
-        foreach ($catalog as $categoryName => $levels) {
+        foreach ($categories as $categoryName) {
             $category = MembershipCategory::firstOrCreate(
                 ['slug' => Str::slug($categoryName)],
                 [
@@ -56,7 +36,7 @@ class MemberController extends Controller
                 ]
             );
 
-            foreach ($levels as $levelName => $fee) {
+            foreach ($fees as $levelName => $fee) {
                 MembershipLevel::firstOrCreate(
                     [
                         'membership_category_id' => $category->id,
@@ -70,9 +50,12 @@ class MemberController extends Controller
                         'benefits' => $levelName.' access and benefits',
                         'is_active' => true,
                     ]
-                );
+                )->update(['is_active' => true]);
             }
         }
+
+        MembershipLevel::whereNotIn('name', self::MEMBERSHIP_LEVEL_NAMES)
+            ->update(['is_active' => false]);
     }
 
     private function activeCategories()
@@ -87,21 +70,22 @@ class MemberController extends Controller
         $this->ensureDefaultMembershipCatalog();
 
         return MembershipLevel::where('is_active', true)
+            ->whereIn('name', self::MEMBERSHIP_LEVEL_NAMES)
             ->with('category')
             ->orderBy('membership_category_id')
-            ->orderBy('name')
             ->get();
     }
 
     private function searchableLevels()
     {
-        $this->ensureDefaultMembershipCatalog();
-
-        return MembershipLevel::where('is_active', true)
-            ->orderBy('name')
-            ->get()
+        return $this->activeLevels()
             ->unique('name')
             ->values();
+    }
+
+    private function allowedLevelIds(): array
+    {
+        return $this->activeLevels()->pluck('id')->all();
     }
 
     /**
@@ -165,7 +149,7 @@ class MemberController extends Controller
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string'],
             'membership_category_id' => ['required', 'exists:membership_categories,id'],
-            'membership_level_id' => ['required', 'exists:membership_levels,id'],
+            'membership_level_id' => ['required', Rule::in($this->allowedLevelIds())],
             'status' => ['required', 'in:active,inactive,pending,deactivated'],
             'notes' => ['nullable', 'string'],
         ]);
@@ -213,7 +197,7 @@ class MemberController extends Controller
             'phone' => ['nullable', 'string', 'max:255'],
             'address' => ['nullable', 'string'],
             'membership_category_id' => ['required', 'exists:membership_categories,id'],
-            'membership_level_id' => ['required', 'exists:membership_levels,id'],
+            'membership_level_id' => ['required', Rule::in($this->allowedLevelIds())],
             'status' => ['required', 'in:active,inactive,pending,deactivated'],
             'notes' => ['nullable', 'string'],
         ]);
@@ -249,5 +233,12 @@ class MemberController extends Controller
         $member->delete();
 
         return redirect()->route('members.index')->with('success', 'Member account deleted successfully.');
+    }
+
+    public function print(Member $member): View
+    {
+        $member->load(['category', 'level', 'transactions.payments']);
+
+        return view('member-print', ['member' => $member]);
     }
 }

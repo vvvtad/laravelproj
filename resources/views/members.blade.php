@@ -152,6 +152,7 @@
 
                 <div class="additional-button">
                     <a href="{{ route('members.edit', $selectedMember) }}">Edit</a>
+                    <a href="{{ route('members.print', $selectedMember) }}" target="_blank">Print record</a>
                     <a href="{{ route('members.index') }}">Back</a>
                 </div>
 
