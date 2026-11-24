@@ -11,6 +11,26 @@ nav {
     margin-bottom: 2rem;
 }
 
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    margin-right: 1rem;
+}
+
+nav a:hover {
+    font-weight: bold;
+}
+
+/** TASKS **/
+
 h1 {
     color: #ffffff;
     text-align: center;
@@ -55,6 +75,11 @@ button {
     border-radius: 4px;
     cursor: pointer;
     margin-bottom: 1rem;
+    margin-top: 0.8rem;
+}
+
+button:hover {
+    font-weight: bold;
 }
 
 .success-message {
@@ -73,10 +98,109 @@ button {
     margin-bottom: 1rem;
 }
 
-article {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 2rem;
-    background-color: #f9f9f9;
-    border-radius: 5px;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 2rem;
+    text-align: center;
+}
+
+.action-buttons {
+    display: flex;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    background-color: #eceff1;
+    padding: 0.5rem;
+}
+
+.action-buttons .delete-form {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+}
+
+.editbtn {
+    color: #000000;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.editbtn:hover {
+    color: #ac3e6c;
+}
+
+/** MEMBERS **/
+
+.membercontainer {
+    display: grid;
+    grid-template-areas:
+        "heading heading"
+        "search table"
+        "form table";
+    grid-template-columns: minmax(0, 30rem) minmax(0, 1fr);
+    gap: 1rem;
+    align-items: start;
+    padding: 1rem;
+}
+
+.membercontainer h2 {
+    grid-area: heading;
+    text-align: center;
+}
+
+.searchcontainer {
+    grid-area: search;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.memberwindowcontainer {
+    grid-area: form;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.memberwindowcontainer select, .searchcontainer select {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    width: 100%;
+}
+
+.memberlistcontainer {
+    grid-area: table;
+    min-width: 0;
+    overflow-x: auto;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.additional-button {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.additional-button a {
+    background-color: #ac3e6c;
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+@media (max-width: 900px) {
+    .membercontainer {
+        grid-template-areas:
+            "heading"
+            "search"
+            "form"
+            "table";
+        grid-template-columns: minmax(0, 1fr);
+    }
 }
