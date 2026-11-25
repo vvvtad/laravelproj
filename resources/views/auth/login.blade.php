@@ -62,7 +62,7 @@
 
             <p>
                 Admin: admin@gmail.com
-                PW: Adm1n_Project
+                PW: adm1n_Project
             </p>
         </section>
     </main>
