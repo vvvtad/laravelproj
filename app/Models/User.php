@@ -5,11 +5,16 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    public const ROLE_ADMIN = 'admin';
+
+    public const ROLE_MEMBER = 'member';
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -22,6 +27,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'member_id',
+        'is_active',
     ];
 
     /**
@@ -44,6 +52,22 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
+    }
+
+    public function member(): BelongsTo
+    {
+        return $this->belongsTo(Member::class);
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    public function isMember(): bool
+    {
+        return $this->role === self::ROLE_MEMBER;
     }
 }

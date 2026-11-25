@@ -12,6 +12,18 @@ class TransactionController extends Controller
 {
     public function index(Request $request): View
     {
+        $user = $request->user();
+
+        if (! $user->isAdmin()) {
+            $transactions = $user->member?->transactions()
+                ->latest()
+                ->get() ?? collect();
+
+            return view('member.transactions.index', [
+                'transactions' => $transactions,
+            ]);
+        }
+
         $status = $request->string('status')->toString();
         $search = trim($request->string('search')->toString());
 

@@ -3,11 +3,14 @@
 use App\Models\Member;
 use App\Models\MembershipCategory;
 use App\Models\MembershipLevel;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('the member index and member details pages render', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $category = MembershipCategory::create([
         'name' => 'Standard',
         'slug' => 'standard',
@@ -53,6 +56,8 @@ test('the member index and member details pages render', function () {
 });
 
 test('the member form persists notes and returns to the list', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $category = MembershipCategory::create([
         'name' => 'Standard',
         'slug' => 'standard',
@@ -88,6 +93,8 @@ test('the member form persists notes and returns to the list', function () {
 });
 
 test('the member form rejects a level from another category', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $selectedCategory = MembershipCategory::create([
         'name' => 'Student',
         'slug' => 'student',
@@ -123,6 +130,8 @@ test('the member form rejects a level from another category', function () {
 });
 
 test('members can be updated and deactivated through resource routes', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $category = MembershipCategory::create([
         'name' => 'Standard',
         'slug' => 'standard',
@@ -172,6 +181,8 @@ test('members can be updated and deactivated through resource routes', function 
 });
 
 test('only deactivated members have a permanent delete option', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $category = MembershipCategory::create([
         'name' => 'Standard',
         'slug' => 'standard',
@@ -211,6 +222,8 @@ test('only deactivated members have a permanent delete option', function () {
 });
 
 test('active members cannot be permanently deleted', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $category = MembershipCategory::create([
         'name' => 'Standard',
         'slug' => 'standard',
@@ -240,6 +253,8 @@ test('active members cannot be permanently deleted', function () {
 });
 
 test('deactivated members can be permanently deleted', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $category = MembershipCategory::create([
         'name' => 'Standard',
         'slug' => 'standard',

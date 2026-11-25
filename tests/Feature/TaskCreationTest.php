@@ -1,11 +1,14 @@
 <?php
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
 
 test('a submitted task is saved and displayed in the task list', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $response = $this->post(route('tasks.store'), [
         'task_title' => 'Buy groceries',
         'description' => 'Milk and bread',
@@ -26,6 +29,8 @@ test('a submitted task is saved and displayed in the task list', function () {
 });
 
 test('PATCH updates only the submitted task fields', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $task = Task::create([
         'task_title' => 'Old title',
         'description' => 'Old description',
@@ -46,6 +51,8 @@ test('PATCH updates only the submitted task fields', function () {
 });
 
 test('PATCH can clear the task description without changing its title', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $task = Task::create([
         'task_title' => 'Existing title',
         'description' => 'Existing description',
@@ -65,6 +72,8 @@ test('PATCH can clear the task description without changing its title', function
 });
 
 test('the task edit form shows the existing values', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $task = Task::create([
         'task_title' => 'Existing title',
         'description' => 'Existing description',
@@ -78,6 +87,8 @@ test('the task edit form shows the existing values', function () {
 });
 
 test('updating a task that does not exist returns not found', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $this->put(route('tasks.update', 999), [
         'task_title' => 'Updated title',
         'description' => 'Updated description',
@@ -85,6 +96,8 @@ test('updating a task that does not exist returns not found', function () {
 });
 
 test('the next task starts at id one after the last task is deleted', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $task = Task::create([
         'task_title' => 'Last task',
         'description' => null,
@@ -105,6 +118,8 @@ test('the next task starts at id one after the last task is deleted', function (
 });
 
 test('deleting a task does not reset the id while other tasks remain', function () {
+    $this->actingAs(User::factory()->admin()->create());
+
     $firstTask = Task::create([
         'task_title' => 'First task',
         'description' => null,

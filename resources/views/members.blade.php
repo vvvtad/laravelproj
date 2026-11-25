@@ -195,6 +195,7 @@
                         <th>Category</th>
                         <th>Level</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>

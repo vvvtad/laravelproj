@@ -26,6 +26,11 @@ class MembershipCategory extends Model
         return $this->hasMany(MembershipLevel::class);
     }
 
+    public function applications(): HasMany
+    {
+        return $this->hasMany(MembershipApplication::class);
+    }
+
     public function members(): HasMany
     {
         return $this->hasMany(Member::class);

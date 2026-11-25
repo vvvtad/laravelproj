@@ -15,7 +15,7 @@ class PaymentController extends Controller
         return view('payments', [
             'payments' => Payment::with(['member', 'transaction'])->latest()->get(),
             'transactions' => MembershipTransaction::with('member')
-                ->whereIn('status', ['pending', 'paid'])
+                ->whereIn('status', ['pending', 'paid', 'approved'])
                 ->latest()
                 ->get(),
         ]);
