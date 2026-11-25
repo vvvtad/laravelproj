@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <title>Member and Admin Sign In</title>
+    <title>Sign In</title>
 </head>
 
 <body>
@@ -13,8 +13,8 @@
 
     <main class="auth-page">
         <section class="auth-card">
-            <h1>Member and Admin Sign In</h1>
-            <p>Access your member or administrator account.</p>
+            <h1>Sign In</h1>
+            <p>Access your account.</p>
 
             @if ($errors->any())
             <div class="error-message" role="alert">
@@ -58,6 +58,11 @@
 
             <p class="auth-apply-link">
                 Applying for membership? <a href="{{ route('membership.create') }}">Start your application</a>.
+            </p>
+
+            <p>
+                Admin: admin@gmail.com
+                PW: Adm1n_Project
             </p>
         </section>
     </main>
