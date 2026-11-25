@@ -45,8 +45,7 @@
                         type="password"
                         name="password"
                         autocomplete="current-password"
-                        required
-                    >
+                        required>
                 </div>
 
                 <label class="auth-remember" for="remember">
